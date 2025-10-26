@@ -49,12 +49,18 @@ function addBookToLibrary(title, author, numPages, hasRead){
 
 const book1 = addBookToLibrary('My first book', 'Hicham Almakroudi', 89, true);
 
-let text = "<ul>";
+let text = "";
 library.forEach(getBooks);
-text += "</ul>";
 
-document.getElementById("books").innerHTML = text;
+const books = document.getElementById("books");
+books.innerHTML = text;
+books.classList.add("flex");
 
 function getBooks(book) {
-    text += "<li>" + book + "</li>";
+    text += "<div class='card'>" + book.title + ', by '+ book.author +'</div>';
 }
+
+const cards = document.querySelectorAll('.card');
+cards.forEach(card =>{
+    card.classList.add("card");
+});
