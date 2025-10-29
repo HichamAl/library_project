@@ -1,12 +1,39 @@
 body {
-    background-color: aqua;
+    font-family: "Lato", system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    display: flex;
 }
 
 .card {
     width: 200px;
-    height: 50px;
-    background-color: white;
+    height: 200px;
+    background-color: rgb(189, 187, 187);
     border-radius: 1rem;
     padding: 1rem;
     margin: 1rem;
+}
+
+.container {
+    display: flex;
+}
+
+h1 {
+    padding: 1rem;
+}
+
+#newbook {
+    padding: 1rem;
+    margin: 1rem;
+    width: 150px;
+    height: 75px;
+    font-size: large;
+    font-weight: 600;
+}
+
+.right-side {
+    padding: 2rem;
+}
+
+#addBookForm {
+    display: flex;
+    flex-direction: column;
 }

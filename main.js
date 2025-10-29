@@ -3,21 +3,21 @@ const library = [
     uuid: "29b21834-c5c3-466d-9516-32d0d792eb07",
     title: "The Hobbit",
     author: "J.R.R. Tolkien",
-    pages: 310,
+    numPages: 310,
     hasRead: "Has read this book"
   },
   {
     uuid: "29b21834-c4d3-466d-9516-32d0d792eb07",
     title: "1984",
     author: "George Orwell",
-    pages: 328,
+    numPages: 328,
     hasRead: "has not yet read this book"
   },
   {
     uuid: "41b21834-c5c3-466d-9516-32d0d792eb07",
     title: "The Catcher in the Rye",
     author: "J.D. Salinger",
-    pages: 277,
+    numPages: 277,
     hasRead: "Has read this book"
   }
 ];
@@ -47,20 +47,53 @@ function addBookToLibrary(title, author, numPages, hasRead){
     library.push(newBook);
 }
 
-const book1 = addBookToLibrary('My first book', 'Hicham Almakroudi', 89, true);
-
 let text = "";
 library.forEach(getBooks);
 
 const books = document.getElementById("books");
 books.innerHTML = text;
-books.classList.add("flex");
+books.classList.add("container");
 
 function getBooks(book) {
-    text += "<div class='card'>" + book.title + ', by '+ book.author +'</div>';
+    text += "<div class='card'>" + book.title + ', by '+ book.author +'<br><br>Number of Pages:' + book.numPages + '<br><br>User ' + book.hasRead +'</div>';
 }
 
 const cards = document.querySelectorAll('.card');
 cards.forEach(card =>{
     card.classList.add("card");
 });
+
+const addNewBookForm = document.getElementById("newbook");
+addNewBookForm.addEventListener("click", addNewBook);
+
+function addNewBook(event){
+    event.preventDefault();
+
+    let title = document.getElementById("title").value;
+    let author = document.getElementById("author").value;
+    let numPages = document.getElementById("numPages").value;
+    let hasRead = document.querySelector('input[name="hasread"]:checked').value;
+    if (hasRead === "true"){
+        hasRead = true;
+    } else {
+        hasRead = false;
+    }
+    addBookToLibrary(title, author, numPages, hasRead);
+    document.getElementById("addBookForm").reset();
+
+    let text = "";
+    library.forEach(getBooks);
+
+    const books = document.getElementById("books");
+    books.innerHTML = text;
+    books.classList.add("container");
+
+    function getBooks(book) {
+        text += "<div class='card'>" + book.title + ', by '+ book.author +'<br><br>Number of Pages:' + book.numPages + '<br><br>User ' + book.hasRead +'</div>';
+    }
+
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card =>{
+        card.classList.add("card");
+    });
+}
