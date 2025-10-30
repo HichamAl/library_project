@@ -47,28 +47,24 @@ function addBookToLibrary(title, author, numPages, hasRead){
     library.push(newBook);
 }
 
-let text = "";
-library.forEach(getBooks);
-
 const books = document.getElementById("books");
-books.innerHTML = text;
+library.forEach(getBooks);
 books.classList.add("container");
-
 function getBooks(book) {
-    text += "<div class='card'>" + book.title + ', by '+ book.author +'<br><br>Number of Pages:' + book.numPages + '<br><br>User ' + book.hasRead +'</div>';
+    const bookCard = document.createElement("div");
+    const button = document.createElement("button");
+    button.textContent = 'Remove book';
+    button.classList.add("removebook");
+    bookCard.classList.add("card");
+    bookCard.textContent = `${book.title}, by ${book.author}, Number of Pages: ${book.numPages}, User  ${book.hasRead}`;
+    books.appendChild(bookCard); 
+    bookCard.appendChild(button);
 }
-
-const cards = document.querySelectorAll('.card');
-cards.forEach(card =>{
-    card.classList.add("card");
-});
 
 const addNewBookForm = document.getElementById("newbook");
 addNewBookForm.addEventListener("click", addNewBook);
-
 function addNewBook(event){
     event.preventDefault();
-
     let title = document.getElementById("title").value;
     let author = document.getElementById("author").value;
     let numPages = document.getElementById("numPages").value;
@@ -81,19 +77,35 @@ function addNewBook(event){
     addBookToLibrary(title, author, numPages, hasRead);
     document.getElementById("addBookForm").reset();
 
-    let text = "";
-    library.forEach(getBooks);
-
-    const books = document.getElementById("books");
-    books.innerHTML = text;
-    books.classList.add("container");
-
-    function getBooks(book) {
-        text += "<div class='card'>" + book.title + ', by '+ book.author +'<br><br>Number of Pages:' + book.numPages + '<br><br>User ' + book.hasRead +'</div>';
-    }
-
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card =>{
-        card.classList.add("card");
-    });
+    const found = library.findLast((element) => element);
+    const newBook = document.createElement("div");
+    newBook.classList.add("card");
+    newBook.textContent = `${found.title}, by ${found.author}, Number of Pages: ${found.numPages}, User  ${found.hasRead}`;
+    books.appendChild(newBook);
+    const button = document.createElement("button");
+    button.classList.add("removebook");
+    button.textContent = 'Remove book';
+    newBook.appendChild(button);
 }
+
+const removeBookButtons = document.querySelectorAll(".removebook");
+
+removeBookButtons.forEach((button) => {
+    button.addEventListener("click", ()=>{
+        const dataId = button.dataset.id;
+        const bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
+        delete library[bookIndexToRemove];
+
+        text = "";
+        library.forEach(getBooks);
+        books.innerHTML = text;
+        
+        function getBooks(book) {
+            text += `<div class='card'>  ${book.title}, by ${book.author} <br><br>Number of Pages: ${book.numPages} <br><br>User  ${book.hasRead} <br><button class="removebook" data-id='${book.uuid}'>Remove Book</button></div>`;
+        } 
+
+    });
+});
+
+
+
