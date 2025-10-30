@@ -55,6 +55,7 @@ function getBooks(book) {
     const button = document.createElement("button");
     button.textContent = 'Remove book';
     button.classList.add("removebook");
+    button.setAttribute("data-id", `${book.uuid}`);
     bookCard.classList.add("card");
     bookCard.textContent = `${book.title}, by ${book.author}, Number of Pages: ${book.numPages}, User  ${book.hasRead}`;
     books.appendChild(bookCard); 
@@ -84,26 +85,31 @@ function addNewBook(event){
     books.appendChild(newBook);
     const button = document.createElement("button");
     button.classList.add("removebook");
+    button.setAttribute("data-id", `${found.uuid}`);
     button.textContent = 'Remove book';
     newBook.appendChild(button);
+
+    const removeBookButtons = document.querySelectorAll(".removebook");
+    removeBookButtons.forEach((button) => {
+    button.addEventListener("click", ()=>{
+        let dataId = button.dataset.id;
+        let bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
+        library.splice(bookIndexToRemove, 1)
+        let div = button.parentNode;
+        div.remove();
+    });
+});
+
 }
 
 const removeBookButtons = document.querySelectorAll(".removebook");
-
 removeBookButtons.forEach((button) => {
     button.addEventListener("click", ()=>{
-        const dataId = button.dataset.id;
-        const bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
-        delete library[bookIndexToRemove];
-
-        text = "";
-        library.forEach(getBooks);
-        books.innerHTML = text;
-        
-        function getBooks(book) {
-            text += `<div class='card'>  ${book.title}, by ${book.author} <br><br>Number of Pages: ${book.numPages} <br><br>User  ${book.hasRead} <br><button class="removebook" data-id='${book.uuid}'>Remove Book</button></div>`;
-        } 
-
+        let dataId = button.dataset.id;
+        let bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
+        library.splice(bookIndexToRemove, 1)
+        let div = button.parentNode;
+        div.remove();
     });
 });
 
