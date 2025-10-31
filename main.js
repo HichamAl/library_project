@@ -81,6 +81,7 @@ function addNewBook(event){
     });
 });
 
+// right now i think it only targets the first book 
 const readStatusButtons = document.querySelectorAll(".readStatus");
 readStatusButtons.forEach((button) => {
     button.addEventListener("click", ()=> {
@@ -88,7 +89,7 @@ readStatusButtons.forEach((button) => {
         let bookIndex = library.findIndex(book => book.uuid === dataId);
         library[bookIndex].changeStatus(bookIndex);
         const bookText = document.querySelector(".card p");
-        bookText.innerHTML = `<p>${library[bookIndex].title}, by ${library[bookIndex].author}, Number of Pages: ${library[bookIndex].numPages}, User  ${library[bookIndex].hasRead}</p>`;
+        bookText.textContent = `${library[bookIndex].title}, by ${library[bookIndex].author}, Number of Pages: ${library[bookIndex].numPages}, User  ${library[bookIndex].hasRead}`;
     });
 });
 };
