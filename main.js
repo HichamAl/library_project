@@ -88,7 +88,9 @@ readStatusButtons.forEach((button) => {
         let dataId = button.dataset.id;
         let bookIndex = library.findIndex(book => book.uuid === dataId);
         library[bookIndex].changeStatus(bookIndex);
-        const bookText = document.querySelector(".card p");
+
+        //p element selecteren dat hoort bij het boekindex
+        let bookText = document.querySelector(".card p");
         bookText.textContent = `${library[bookIndex].title}, by ${library[bookIndex].author}, Number of Pages: ${library[bookIndex].numPages}, User  ${library[bookIndex].hasRead}`;
     });
 });
