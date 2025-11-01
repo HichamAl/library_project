@@ -16,7 +16,7 @@ function Book(uuid, title, author, numPages, hasRead) {
 
 Book.prototype.changeStatus = function(bookIndex) {
     if (library[bookIndex].hasRead === 'Has read this book'){
-        library[bookIndex].hasRead = 'has not yet read this book';
+        library[bookIndex].hasRead = 'Has not yet read this book';
     } else {
         library[bookIndex].hasRead = 'Has read this book';
     }
@@ -70,31 +70,32 @@ function addNewBook(event){
     const found = library.findLast((element) => element);
     getBooks(found);
 
-    const removeBookButtons = document.querySelectorAll(".removebook");
-    removeBookButtons.forEach((button) => {
-    button.addEventListener("click", ()=>{
-        let dataId = button.dataset.id;
-        let bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
-        library.splice(bookIndexToRemove, 1)
-        let div = button.parentNode;
-        div.remove();
-    });
+let bookLastChild = books.lastChild;
+let CardFirstChild = bookLastChild.firstChild;
+let removeBookButton = CardFirstChild.nextSibling;
+
+removeBookButton.addEventListener("click", () => {
+    let dataId = removeBookButton.dataset.id;
+    let bookIndexToRemove = library.findIndex(book => book.uuid === dataId);
+    library.splice(bookIndexToRemove, 1);
+    let div = removeBookButton.parentNode;
+    div.remove();
 });
 
-// right now i think it only targets the first book 
-const readStatusButtons = document.querySelectorAll(".readStatus");
-readStatusButtons.forEach((button) => {
-    button.addEventListener("click", ()=> {
-        let dataId = button.dataset.id;
-        let bookIndex = library.findIndex(book => book.uuid === dataId);
-        library[bookIndex].changeStatus(bookIndex);
+let lastAddedBookButton = bookLastChild.lastChild;
+lastAddedBookButton.addEventListener("click", () => {
+    let buttonId = lastAddedBookButton.dataset.id;
+    let bookIndex = library.findIndex(book => book.uuid === buttonId);
+    library[bookIndex].changeStatus(bookIndex);
 
-        //p element selecteren dat hoort bij het boekindex
-        let bookText = document.querySelector(".card p");
-        bookText.textContent = `${library[bookIndex].title}, by ${library[bookIndex].author}, Number of Pages: ${library[bookIndex].numPages}, User  ${library[bookIndex].hasRead}`;
-    });
+    let buttonSibling = lastAddedBookButton.previousSibling;
+    let buttonSiblingSibling = buttonSibling.previousSibling;
+    console.log(buttonSiblingSibling);
+
+    buttonSiblingSibling.textContent = `${library[bookIndex].title}, by ${library[bookIndex].author}, Number of Pages: ${library[bookIndex].numPages}, User  ${library[bookIndex].hasRead}`;
 });
 };
+
 
 
 
